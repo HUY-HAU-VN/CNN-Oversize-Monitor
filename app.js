@@ -1,5 +1,5 @@
-const API_KEY = "DAN_API_KEY_CUA_BAN_VAO_DAY";
-const FOLDER_ID = "DAN_ID_THU_MUC_DRIVE_VAO_DAY";
+const API_KEY = "AIzaSyC-Xh3B_Qo6jZdSqgVqCE3MQXMp27SEn7s";
+const FOLDER_ID = "1GDNOBdq25yz0q-Kcw3YTl0LcTfzhnqZ7";
 const REFRESH_MS = 10000;
 
 /* ---------- DOM ---------- */
