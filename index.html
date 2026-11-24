@@ -1,39 +1,60 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNN Oversize Vehicle Monitor</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CNN Oversize Vehicle Monitor</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>CNN OVERSIZE VEHICLE MONITOR</h1>
-        <p>Hệ thống giám sát phương tiện quá khổ</p>
-    </header>
+  <header>
+    <div class="header-content">
+      <h1>CNN OVERSIZE VEHICLE MONITOR</h1>
+      <p>Hệ thống giám sát & cảnh báo phương tiện quá khổ tự động</p>
+    </div>
+  </header>
 
-    <main>
-        <section class="latest-section">
-            <h2>Ảnh sự kiện gần nhất</h2>
-            <div id="latest-image" class="latest-image">
-                Chưa có dữ liệu hình ảnh
-            </div>
-        </section>
+  <main class="container">
+    <!-- Khung sự kiện mới nhất -->
+    <section class="card latest-section">
+      <div class="section-header">
+        <h2><span class="live-dot"></span> Ảnh sự kiện gần nhất</h2>
+        <span class="hint-text">Nhấn vào ảnh để phóng to</span>
+      </div>
+      <div id="latest-image" class="latest-container">
+        <p class="status-msg">Đang tải dữ liệu từ hệ thống...</p>
+      </div>
+    </section>
 
-        <section class="history-section">
-            <h2>Lịch sử sự kiện</h2>
-            <div id="history-list" class="history-list">
-                Chưa có dữ liệu
-            </div>
-        </section>
-    </main>
+    <!-- Khung lịch sử sự kiện -->
+    <section class="card history-section">
+      <div class="section-header">
+        <h2>Lịch sử sự kiện</h2>
+        <span id="history-count" class="badge">0 ảnh</span>
+      </div>
+      <div id="history-list" class="history-grid">
+        <p class="status-msg">Chưa có lịch sử hình ảnh</p>
+      </div>
+    </section>
+  </main>
 
-    <footer>
-        <p>CNN Oversize Monitoring System</p>
-    </footer>
+  <footer>
+    <p>CNN Oversize Monitoring System</p>
+  </footer>
 
-    <script src="app.js"></script>
+  <!-- Cửa sổ phóng to ảnh (Lightbox Modal) -->
+  <div id="image-modal" class="modal" onclick="closeModalOnOutside(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()" title="Đóng (ESC)">&times;</button>
+      <img id="modal-img" src="" alt="Ảnh phóng to">
+      <div class="modal-caption">
+        <div id="modal-title" class="modal-title"></div>
+        <div id="modal-time" class="modal-time"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
