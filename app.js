@@ -1,5 +1,5 @@
 const API_KEY = "AIzaSyC-Xh3B_Qo6jZdSqgVqCE3MQXMp27SEn7s";
-const FOLDER_ID = "AIzaSyC-Xh3B_Qo6jZdSqgVqCE3MQXMp27SEn7s";
+const FOLDER_ID = "1GDNOBdq25yz0q-Kcw3YTl0LcTfzhnqZ7";
 
 const latestImage = document.getElementById("latest-image");
 const historyList = document.getElementById("history-list");
