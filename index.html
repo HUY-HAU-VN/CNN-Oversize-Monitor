@@ -4,54 +4,108 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CNN Oversize Vehicle Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <div class="header-content">
-      <h1>CNN OVERSIZE VEHICLE MONITOR</h1>
-      <p>Hệ thống giám sát & cảnh báo phương tiện quá khổ tự động</p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+        </div>
+        <div>
+          <h1>CNN Oversize Vehicle Monitor</h1>
+          <p>Hệ thống giám sát &amp; cảnh báo phương tiện quá khổ tự động</p>
+        </div>
+      </div>
+      <div class="status-pill" id="status-pill">
+        <span class="pulse"></span>
+        <span id="status-text">Đang kết nối...</span>
+      </div>
     </div>
   </header>
 
   <main class="container">
-    <!-- Khung sự kiện mới nhất -->
-    <section class="card latest-section">
-      <div class="section-header">
-        <h2><span class="live-dot"></span> Ảnh sự kiện gần nhất</h2>
-        <span class="hint-text">Nhấn vào ảnh để phóng to</span>
+
+    <!-- Thống kê nhanh -->
+    <section class="stats">
+      <div class="stat">
+        <span class="stat-label">Tổng số sự kiện</span>
+        <span class="stat-value" id="stat-total">0</span>
       </div>
-      <div id="latest-image" class="latest-container">
-        <p class="status-msg">Đang tải dữ liệu từ hệ thống...</p>
+      <div class="stat">
+        <span class="stat-label">Hôm nay</span>
+        <span class="stat-value" id="stat-today">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Sự kiện gần nhất</span>
+        <span class="stat-value stat-small" id="stat-last">--</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Cập nhật lần cuối</span>
+        <span class="stat-value stat-small" id="stat-updated">--</span>
       </div>
     </section>
 
-    <!-- Khung lịch sử sự kiện -->
-    <section class="card history-section">
+    <!-- Ảnh mới nhất -->
+    <section class="card">
+      <div class="section-header">
+        <h2><span class="live-dot"></span> Sự kiện gần nhất</h2>
+        <span class="hint">Nhấn vào ảnh để phóng to</span>
+      </div>
+      <div id="latest-image" class="latest-container">
+        <div class="skeleton skeleton-latest"></div>
+      </div>
+    </section>
+
+    <!-- Lịch sử -->
+    <section class="card">
       <div class="section-header">
         <h2>Lịch sử sự kiện</h2>
         <span id="history-count" class="badge">0 ảnh</span>
       </div>
       <div id="history-list" class="history-grid">
-        <p class="status-msg">Chưa có lịch sử hình ảnh</p>
+        <p class="status-msg">Đang tải...</p>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>CNN Oversize Monitoring System</p>
+    <p>CNN Oversize Monitoring System · tự động làm mới mỗi 10 giây</p>
   </footer>
 
-  <!-- Cửa sổ phóng to ảnh (Lightbox Modal) -->
-  <div id="image-modal" class="modal" onclick="closeModalOnOutside(event)">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal()" title="Đóng (ESC)">&times;</button>
-      <img id="modal-img" src="" alt="Ảnh phóng to">
-      <div class="modal-caption">
-        <div id="modal-title" class="modal-title"></div>
-        <div id="modal-time" class="modal-time"></div>
+  <!-- Lightbox có zoom -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lb-top">
+      <div class="lb-info">
+        <div id="lb-title" class="lb-title"></div>
+        <div id="lb-time" class="lb-time"></div>
       </div>
+      <div class="lb-tools">
+        <button id="lb-zoom-out" title="Thu nhỏ (-)">−</button>
+        <span id="lb-zoom-level" class="lb-zoom-level">100%</span>
+        <button id="lb-zoom-in" title="Phóng to (+)">+</button>
+        <button id="lb-reset" title="Vừa khung (0)">Vừa khung</button>
+        <a id="lb-open" class="lb-link" target="_blank" rel="noopener" title="Mở ảnh gốc trên Drive">Ảnh gốc ↗</a>
+        <button id="lb-close" class="lb-close" title="Đóng (Esc)">&times;</button>
+      </div>
+    </div>
+
+    <button id="lb-prev" class="lb-nav lb-prev" title="Ảnh mới hơn (←)">‹</button>
+    <button id="lb-next" class="lb-nav lb-next" title="Ảnh cũ hơn (→)">›</button>
+
+    <div id="lb-stage" class="lb-stage">
+      <div id="lb-loader" class="lb-loader"></div>
+      <img id="lb-img" alt="Ảnh phóng to" draggable="false">
+    </div>
+
+    <div class="lb-bottom">
+      <span id="lb-counter"></span>
+      <span class="lb-help">Cuộn chuột / chụm 2 ngón để zoom · kéo để di chuyển · nhấp đúp để phóng to</span>
     </div>
   </div>
 
